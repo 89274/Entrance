@@ -198,7 +198,23 @@
   </style>
 </head>
 <body>
+<script>
+  (function() {
+    // 設定你的通關密碼（可自行修改）
+    const PASSWORD = "23089189";
 
+    // 檢查本次瀏覽是否已經輸入過
+    if (sessionStorage.getItem("auth") !== "true") {
+      let input = prompt("請輸入系統存取密碼：");
+      if (input === PASSWORD) {
+        sessionStorage.setItem("auth", "true");
+      } else {
+        alert("密碼錯誤，拒絕存取！");
+        window.location.href = "about:blank"; // 導向空白頁
+      }
+    }
+  })();
+</script>
   <div class="container">
     <header>
       <h1>作業系統導引門戶</h1>
