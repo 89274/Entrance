@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>鶴力系統整合入口</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card-bg: #1e293b;
+      --card-hover: #334155;
+      --primary: #3b82f6;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Microsoft JhengHei", sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 900px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    header h1 {
+      font-size: 2.2rem;
+      margin-bottom: 10px;
+      letter-spacing: 1px;
+    }
+
+    header p {
+      color: var(--text-muted);
+      font-size: 1rem;
+    }
+
+    /* 系統卡片網格 */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background-color: var(--card-bg);
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 30px 24px;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      position: relative;
+    }
+
+    .card:hover {
+      background-color: var(--card-hover);
+      transform: translateY(-4px);
+      border-color: var(--primary);
+      box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.2);
+    }
+
+    .card-icon {
+      font-size: 2.8rem;
+      margin-bottom: 16px;
+    }
+
+    .card-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .card-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    .badge {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      font-size: 0.75rem;
+      padding: 3px 8px;
+      border-radius: 20px;
+      background: rgba(59, 130, 246, 0.15);
+      color: var(--primary);
+    }
+
+    /* 鑽全選擇彈窗 */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.65);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal {
+      background: #1e293b;
+      border: 1px solid #475569;
+      border-radius: 16px;
+      padding: 32px;
+      width: 90%;
+      max-width: 440px;
+      text-align: center;
+      box-shadow: 0 20px 30px rgba(0,0,0,0.4);
+      animation: pop 0.2s ease-out;
+    }
+
+    @keyframes pop {
+      from { transform: scale(0.95); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .modal h2 {
+      margin-bottom: 8px;
+      font-size: 1.4rem;
+    }
+
+    .modal p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-bottom: 24px;
+    }
+
+    .modal-options {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .modal-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 14px;
+      border-radius: 8px;
+      background: #334155;
+      color: var(--text);
+      text-decoration: none;
+      font-size: 1rem;
+      font-weight: 500;
+      transition: background 0.2s;
+    }
+
+    .modal-btn:hover {
+      background: var(--primary);
+    }
+
+    .close-btn {
+      margin-top: 16px;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 0.85rem;
+    }
+
+    .close-btn:hover {
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1>作業系統導引門戶</h1>
+      <p>點選欲使用的作業系統，即可直接前往該系統平台</p>
+    </header>
+
+    <div class="grid">
+      <!-- 1. 偉全系統 -->
+      <a href="http://你的偉全系統網址" target="_blank" class="card">
+        <span class="badge">直接進入</span>
+        <div class="card-icon">📂</div>
+        <div class="card-title">偉全系統</div>
+        <div class="card-desc">專案運營、任務管理與資料統計</div>
+      </a>
+
+      <!-- 2. 鑽全系統（點擊跳出二選一） -->
+      <div class="card" onclick="openModal()">
+        <span class="badge">2 個模組</span>
+        <div class="card-icon">⚙️</div>
+        <div class="card-title">鑽全系統</div>
+        <div class="card-desc">點擊選擇「看板系統」或「報工系統」</div>
+      </div>
+
+      <!-- 3. 鶴力系統 -->
+      <a href="http://你的鶴力系統網址" target="_blank" class="card">
+        <span class="badge">直接進入</span>
+        <div class="card-icon">📦</div>
+        <div class="card-title">鶴力系統</div>
+        <div class="card-desc">品管檢驗、物流運作與日常報表</div>
+      </a>
+    </div>
+  </div>
+
+  <!-- 鑽全系統彈窗 -->
+  <div class="modal-overlay" id="zuanquanModal" onclick="closeModalOnBg(event)">
+    <div class="modal">
+      <h2>鑽全系統</h2>
+      <p>請選擇您欲進入的功能項目：</p>
+      
+      <div class="modal-options">
+        <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vSsfPhT0cXVdj_SAShU51M8l7fbBX8vODekxHrOlR_UiN21NlFGI8KUKm6Fy5FYnZl9sb3HjNrvtpdQ/pubhtml?gid=1234567&single=true" target="_blank" class="modal-btn" onclick="closeModal()">
+          📊 看板系統 ↗
+        </a>
+        <a href="https://script.google.com/macros/s/AKfycbzHAi3fEN3Q6RqEjJ1s4eqweQR_ONwfTr9XxsVRbaEcN8-7i90BM4zfDqxeOH5AGi7cww/exec" target="_blank" class="modal-btn" onclick="closeModal()">
+          📝 報工系統 ↗
+        </a>
+      </div>
+
+      <button class="close-btn" onclick="closeModal()">取消關閉</button>
+    </div>
+  </div>
+
+  <script>
+    const modal = document.getElementById('zuanquanModal');
+
+    function openModal() {
+      modal.classList.add('active');
+    }
+
+    function closeModal() {
+      modal.classList.remove('active');
+    }
+
+    // 點擊半透明背景關閉
+    function closeModalOnBg(e) {
+      if (e.target === modal) {
+        closeModal();
+      }
+    }
+  </script>
+
+</body>
+</html>
