@@ -198,23 +198,7 @@
   </style>
 </head>
 <body>
-<script>
-  (function() {
-    // 設定你的通關密碼（可自行修改）
-    const PASSWORD = "23089189";
 
-    // 檢查本次瀏覽是否已經輸入過
-    if (sessionStorage.getItem("auth") !== "true") {
-      let input = prompt("請輸入系統存取密碼：");
-      if (input === PASSWORD) {
-        sessionStorage.setItem("auth", "true");
-      } else {
-        alert("密碼錯誤，拒絕存取！");
-        window.location.href = "about:blank"; // 導向空白頁
-      }
-    }
-  })();
-</script>
   <div class="container">
     <header>
       <h1>作業系統導引門戶</h1>
@@ -232,7 +216,7 @@
 
       <!-- 2. 鑽全系統（點擊跳出二選一） -->
       <div class="card" onclick="openModal()">
-        <span class="badge">2 個模組</span>
+        <span class="badge">3 個模組</span>
         <div class="card-icon">⚙️</div>
         <div class="card-title">鑽全系統</div>
         <div class="card-desc">點擊選擇「看板系統」或「報工系統」</div>
@@ -258,8 +242,11 @@
         <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vSsfPhT0cXVdj_SAShU51M8l7fbBX8vODekxHrOlR_UiN21NlFGI8KUKm6Fy5FYnZl9sb3HjNrvtpdQ/pubhtml?gid=1234567&single=true" target="_blank" class="modal-btn" onclick="closeModal()">
           📊 看板系統 ↗
         </a>
-        <a href="https://script.google.com/macros/s/AKfycbzHAi3fEN3Q6RqEjJ1s4eqweQR_ONwfTr9XxsVRbaEcN8-7i90BM4zfDqxeOH5AGi7cww/exec" target="_blank" class="modal-btn" onclick="closeModal()">
+        <a href="https://script.google.com/macros/s/AKfycbygFA0hGQKpOtEW6dU3ep3lSIaW6mpIdrSHlLRoV-3IhPNS5uFF3jVyGUNkoOwiQ6zwfQ/exec" target="_blank" class="modal-btn" onclick="closeModal()">
           📝 報工系統 ↗
+        </a>
+        <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vSsfPhT0cXVdj_SAShU51M8l7fbBX8vODekxHrOlR_UiN21NlFGI8KUKm6Fy5FYnZl9sb3HjNrvtpdQ/pubhtml?gid=1234567&single=true" target="_blank" class="modal-btn" onclick="closeModal()">
+          📊 圖面系統 ↗
         </a>
       </div>
 
